@@ -18,3 +18,5 @@ Organic Carbon: Measured using a Total Organic Carbon (TOC) analyzer, which dete
 Trihalomethanes: Measured using gas chromatography to identify and quantify these chemical compounds.
 
 Turbidity: Measured with a turbidimeter, which determines the clarity of water based on light scattering.
+
+The goal is to assess and ensure water quality for safe consumption by measuring various chemical and physical parameters, such as pH, hardness, and turbidity. This evaluation helps identify contaminants and their concentrations, ensuring compliance with health standards. Ultimately, the aim is to protect public health and the environment by providing safe drinking water.
