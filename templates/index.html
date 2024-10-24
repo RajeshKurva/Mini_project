@@ -48,19 +48,21 @@
 
     <h1>Check Water Potability</h1>
     <form id="waterForm">
-        <input type="number" id="ph" placeholder="pH" required>
-        <input type="number" id="hardness" placeholder="Hardness" required>
-        <input type="number" id="solids" placeholder="Solids" required>
-        <input type="number" id="chloramines" placeholder="Chloramines" required>
-        <input type="number" id="sulfate" placeholder="Sulfate" required>
-        <input type="number" id="conductivity" placeholder="Conductivity" required>
-        <input type="number" id="organic_carbon" placeholder="Organic Carbon" required>
-        <input type="number" id="trihalomethanes" placeholder="Trihalomethanes" required>
-        <input type="number" id="turbidity" placeholder="Turbidity" required>
-        <button type="submit">Check Potability</button>
+        <input type="number" id="ph" placeholder="pH (0-14)" min="0" max="14" required>
+        <input type="number" id="hardness" placeholder="Hardness (0-500 mg/L)" min="0" max="500" required>
+        <input type="number" id="solids" placeholder="Solids (0-2000 mg/L)" min="0" max="2000" required>
+        <input type="number" id="chloramines" placeholder="Chloramines (0-4 mg/L)" min="0" max="4" required>
+        <input type="number" id="sulfate" placeholder="Sulfate (0-500 mg/L)" min="0" max="500" required>
+        <input type="number" id="conductivity" placeholder="Conductivity (0-2000 µS/cm)" min="0" max="2000" required>
+        <input type="number" id="organic_carbon" placeholder="Organic Carbon (0-20 mg/L)" min="0" max="20" required>
+        <input type="number" id="trihalomethanes" placeholder="Trihalomethanes (0-100 µg/L)" min="0" max="100" required>
+        <input type="number" id="turbidity" placeholder="Turbidity (0-5 NTU)" min="0" max="5" required>
+        <button type="submit">Check Potability</button> <!-- Added Check Potability button -->
     </form>
+    
 
     <div id="result"></div>
+
     <script>
         const form = document.getElementById('waterForm');
         const resultDiv = document.getElementById('result');
@@ -82,14 +84,14 @@
 
             try {
                 const response = await fetch('/check-potability', {
-                    method: 'POST',  // This is crucial to make sure it's a POST request
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 });
                 const result = await response.json();
-                resultDiv.innerHTML = `Potability: ${result.potable ? 'Safe to Drink' : 'Not Safe to Drink'}`;
+                resultDiv.innerHTML = `Potability: ${result.potable? 'Safe to Drink' : 'Not Safe to Drink'}`;
             } catch (error) {
                 resultDiv.innerHTML = 'Error checking potability.';
             }
