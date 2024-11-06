@@ -19,7 +19,7 @@ def load_model(file_path):
 app = Flask(__name__)
 
 # Load model
-model_file = '/workspaces/Mini_project/random_forest_model.pkl'
+model_file = '/workspaces/Mini_project/best_model.pkl'
 model = load_model(model_file)
 
 if model is None:
