@@ -48,18 +48,17 @@
 
     <h1>Check Water Potability</h1>
     <form id="waterForm">
-        <input type="number" id="ph" placeholder="pH (0-14)" min="0" max="14" required>
-        <input type="number" id="hardness" placeholder="Hardness (0-500 mg/L)" min="0" max="500" required>
-        <input type="number" id="solids" placeholder="Solids (0-2000 mg/L)" min="0" max="2000" required>
-        <input type="number" id="chloramines" placeholder="Chloramines (0-4 mg/L)" min="0" max="4" required>
-        <input type="number" id="sulfate" placeholder="Sulfate (0-500 mg/L)" min="0" max="500" required>
-        <input type="number" id="conductivity" placeholder="Conductivity (0-2000 µS/cm)" min="0" max="2000" required>
-        <input type="number" id="organic_carbon" placeholder="Organic Carbon (0-20 mg/L)" min="0" max="20" required>
-        <input type="number" id="trihalomethanes" placeholder="Trihalomethanes (0-100 µg/L)" min="0" max="100" required>
-        <input type="number" id="turbidity" placeholder="Turbidity (0-5 NTU)" min="0" max="5" required>
-        <button type="submit">Check Potability</button> <!-- Added Check Potability button -->
+        <input type="number" id="ph" placeholder="pH" step="any" required>
+        <input type="number" id="hardness" placeholder="Hardness" step="any" required>
+        <input type="number" id="solids" placeholder="Solids" step="any" required>
+        <input type="number" id="chloramines" placeholder="Chloramines" step="any" required>
+        <input type="number" id="sulfate" placeholder="Sulfate" step="any" required>
+        <input type="number" id="conductivity" placeholder="Conductivity" step="any" required>
+        <input type="number" id="organic_carbon" placeholder="Organic Carbon" step="any" required>
+        <input type="number" id="trihalomethanes" placeholder="Trihalomethanes" step="any" required>
+        <input type="number" id="turbidity" placeholder="Turbidity" step="any" required>
+        <button type="submit">Check Potability</button>
     </form>
-    
 
     <div id="result"></div>
 
@@ -71,15 +70,15 @@
             event.preventDefault();
 
             const data = {
-                ph: document.getElementById('ph').value,
-                hardness: document.getElementById('hardness').value,
-                solids: document.getElementById('solids').value,
-                chloramines: document.getElementById('chloramines').value,
-                sulfate: document.getElementById('sulfate').value,
-                conductivity: document.getElementById('conductivity').value,
-                organic_carbon: document.getElementById('organic_carbon').value,
-                trihalomethanes: document.getElementById('trihalomethanes').value,
-                turbidity: document.getElementById('turbidity').value,
+                ph: parseFloat(document.getElementById('ph').value),
+                hardness: parseFloat(document.getElementById('hardness').value),
+                solids: parseFloat(document.getElementById('solids').value),
+                chloramines: parseFloat(document.getElementById('chloramines').value),
+                sulfate: parseFloat(document.getElementById('sulfate').value),
+                conductivity: parseFloat(document.getElementById('conductivity').value),
+                organic_carbon: parseFloat(document.getElementById('organic_carbon').value),
+                trihalomethanes: parseFloat(document.getElementById('trihalomethanes').value),
+                turbidity: parseFloat(document.getElementById('turbidity').value),
             };
 
             try {
@@ -91,7 +90,7 @@
                     body: JSON.stringify(data)
                 });
                 const result = await response.json();
-                resultDiv.innerHTML = `Potability: ${result.potable? 'Safe to Drink' : 'Not Safe to Drink'}`;
+                resultDiv.innerHTML = `Potability: ${result.potable ? 'Safe to Drink' : 'Not Safe to Drink'}`;
             } catch (error) {
                 resultDiv.innerHTML = 'Error checking potability.';
             }
