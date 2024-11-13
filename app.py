@@ -1,55 +1,34 @@
-from flask import Flask, request, jsonify, render_template
-import numpy as np
-import pickle
+from flask import Flask, request, render_template
 import joblib
+import numpy as np
 
-def load_model(file_path):
-    """Load model from file using pickle or joblib"""
-    try:
-        with open(file_path, 'rb') as f:
-            return pickle.load(f)
-    except (pickle.UnpicklingError, EOFError):
-        try:
-            return joblib.load(file_path)
-        except Exception as e:
-            print(f"Error loading {file_path} with joblib: {e}")
-            return None
-
-# Create the Flask app instance
 app = Flask(__name__)
 
-# Load model
-model_file = '/workspaces/Mini_project/best_model.pkl'
-model = load_model(model_file)
+# Load the model and imputer
+model = joblib.load('rf_model.joblib')
+imputer = joblib.load('imputer.joblib')
 
-if model is None:
-    print("Failed to load the model. Exiting.")
-    exit(1)
-
-# Define routes
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html')
-
-@app.route('/check-potability', methods=['POST'])
-def check_potability():
-    data = request.json
-    required_features = ['ph', 'hardness', 'solids', 'chloramines',
-                         'sulfate', 'conductivity', 'organic_carbon',
-                         'trihalomethanes', 'turbidity']
-
-    # Validate incoming JSON data
-    if not all(feature in data for feature in required_features):
-        return jsonify({'error': 'Missing required features'}), 400
-
-    # Extract and reshape features
-    features = np.array([float(data[feature]) for feature in required_features]).reshape(1, -1)
-
-    # Get model prediction
-    prediction = model.predict(features)[0]
-
-    # Return the prediction in JSON format
-    return jsonify({'potable': bool(prediction)})
+    prediction = None
+    if request.method == 'POST':
+        # Get values from the form
+        features = ['ph', 'Hardness', 'Solids', 'Chloramines', 'Sulfate', 
+                   'Conductivity', 'Organic_carbon', 'Trihalomethanes', 'Turbidity']
+        input_data = []
+        for feature in features:
+            value = request.form.get(feature, '')
+            input_data.append(float(value) if value else np.nan)
+        
+        # Reshape and impute missing values
+        input_array = np.array(input_data).reshape(1, -1)
+        input_imputed = imputer.transform(input_array)
+        
+        # Make prediction
+        prediction = model.predict(input_imputed)[0]
+        prediction = "Potable" if prediction == 1 else "Not Potable"
+    
+    return render_template('index.html', prediction=prediction)
 
 if __name__ == '__main__':
     app.run(debug=True)

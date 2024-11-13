@@ -1,101 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Potability Checker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input {
-            margin: 10px 0;
-            padding: 10px;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
+    <title>Water Potability Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-
-    <h1>Check Water Potability</h1>
-    <form id="waterForm">
-        <input type="number" id="ph" placeholder="pH" step="any" required>
-        <input type="number" id="hardness" placeholder="Hardness" step="any" required>
-        <input type="number" id="solids" placeholder="Solids" step="any" required>
-        <input type="number" id="chloramines" placeholder="Chloramines" step="any" required>
-        <input type="number" id="sulfate" placeholder="Sulfate" step="any" required>
-        <input type="number" id="conductivity" placeholder="Conductivity" step="any" required>
-        <input type="number" id="organic_carbon" placeholder="Organic Carbon" step="any" required>
-        <input type="number" id="trihalomethanes" placeholder="Trihalomethanes" step="any" required>
-        <input type="number" id="turbidity" placeholder="Turbidity" step="any" required>
-        <button type="submit">Check Potability</button>
-    </form>
-
-    <div id="result"></div>
-
-    <script>
-        const form = document.getElementById('waterForm');
-        const resultDiv = document.getElementById('result');
-
-        form.addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const data = {
-                ph: parseFloat(document.getElementById('ph').value),
-                hardness: parseFloat(document.getElementById('hardness').value),
-                solids: parseFloat(document.getElementById('solids').value),
-                chloramines: parseFloat(document.getElementById('chloramines').value),
-                sulfate: parseFloat(document.getElementById('sulfate').value),
-                conductivity: parseFloat(document.getElementById('conductivity').value),
-                organic_carbon: parseFloat(document.getElementById('organic_carbon').value),
-                trihalomethanes: parseFloat(document.getElementById('trihalomethanes').value),
-                turbidity: parseFloat(document.getElementById('turbidity').value),
-            };
-
-            try {
-                const response = await fetch('/check-potability', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json();
-                resultDiv.innerHTML = `Potability: ${result.potable ? 'Safe to Drink' : 'Not Safe to Drink'}`;
-            } catch (error) {
-                resultDiv.innerHTML = 'Error checking potability.';
-            }
-        });
-    </script>
-
+<body class="bg-gradient-to-r from-blue-100 to-blue-200 min-h-screen py-10">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+            <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">Water Potability Predictor</h1>
+            
+            <form method="post" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">pH</label>
+                        <input type="number" step="0.01" name="ph" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Hardness</label>
+                        <input type="number" step="0.01" name="Hardness" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Solids</label>
+                        <input type="number" step="0.01" name="Solids" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Chloramines</label>
+                        <input type="number" step="0.01" name="Chloramines" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Sulfate</label>
+                        <input type="number" step="0.01" name="Sulfate" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Conductivity</label>
+                        <input type="number" step="0.01" name="Conductivity" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Organic Carbon</label>
+                        <input type="number" step="0.01" name="Organic_carbon" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Trihalomethanes</label>
+                        <input type="number" step="0.01" name="Trihalomethanes" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Turbidity</label>
+                        <input type="number" step="0.01" name="Turbidity" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        Predict Potability
+                    </button>
+                </div>
+            </form>
+            
+            {% if prediction %}
+            <div class="mt-8 p-4 text-center rounded-lg {% if prediction == 'Potable' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                <h2 class="text-xl font-bold">Prediction: {{ prediction }}</h2>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </body>
 </html>
